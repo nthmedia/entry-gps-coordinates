@@ -1,20 +1,25 @@
 {
     "name": "nthmedia/entry-gps-coordinates",
-    "description": "Pick a GPS location for an entry",
+    "description": "Select a GPS location for an entry",
     "type": "craft-plugin",
     "version": "1.0.0",
     "keywords": [
-        "craft",
-        "cms",
-        "craftcms",
-        "craft-plugin",
-        "entry gps coordinates"
+        "gps coordinates",
+        "gps",
+        "location",
+        "map",
+        "latitude",
+        "longitude",
+        "lat",
+        "lng",
+        "coordinate",
+        "coordinates"
     ],
     "support": {
         "docs": "https://github.com/nthmedia/entry-gps-coordinates",
         "issues": "https://github.com/nthmedia/entry-gps-coordinates/issues"
     },
-    "license": "MIT",
+    "license": "proprietary",
     "authors": [
         {
             "name": "NTH media",
