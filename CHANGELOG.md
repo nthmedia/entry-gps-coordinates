@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## 1.0.1 - 2019-08-31
+## 1.1.0 - 2019-08-31
 ### Added 
 - Added installation instructions to readme
 - Added Twig filter to output coordinates in front-end
