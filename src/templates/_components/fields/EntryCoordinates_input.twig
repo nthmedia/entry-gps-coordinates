@@ -1,0 +1,145 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * Entry GPS Coordinates plugin for Craft CMS 3.x
+ *
+ * EntryCoordinates Field Input
+ *
+ * @author    NTH media
+ * @copyright Copyright (c) 2019 NTH media
+ * @link      https://nthmedia.nl
+ * @package   EntryGpsCoordinates
+ * @since     1.0.0
+ */
+#}
+
+{% import "_includes/forms" as forms %}
+
+{{ forms.textField({
+    id: name,
+    name: name ~ '[coordinates]',
+    value: value.coordinates
+}) }}
+
+{{ forms.text({
+    id: 'location-search',
+    name: name ~ '[searchQuery]',
+    value: value.searchQuery,
+    placeholder: 'Search Address'
+}) }}
+
+<style>
+    /* Always set the map height explicitly to define the size of the div
+     * element that contains the map. */
+    #fields-map {
+        width: 100%;
+        height: 400px;
+    }
+</style>
+
+
+<div id="map"></div>
+<input onclick="deleteMarker();" type="button" value="Delete Marker" class="btn">
+
+<script>
+    // The following example creates a marker in Stockholm, Sweden using a DROP
+    // animation. Clicking on the marker will toggle the animation between a BOUNCE
+    // animation and no animation.
+
+    var map;
+    var marker;
+    var inputId = 'fields-entryCoordinates';
+
+    var originalLocation = '{{ value.coordinates }}';
+
+    this.searchElm = document.getElementById('fields-location-search');
+
+    // Deletes all markers in the array by removing references to them.
+    // Adds a marker to the map and push to the array.
+    function placeMarker(location) {
+        if (marker) {
+            marker.setPosition(location);
+        } else {
+            marker = new google.maps.Marker({
+                position: location,
+                map: map,
+                draggable: true,
+            });
+            document.getElementById(inputId).value = marker.getPosition().lat() + ',' + marker.getPosition().lng();
+
+            marker.addListener('position_changed', function () {
+                document.getElementById(inputId).value = this.getPosition().lat() + ',' + this.getPosition().lng();
+            });
+        }
+    }
+
+    function deleteMarker() {
+        marker.setMap(null);
+        marker = null;
+
+        // Empty oordinates input
+        document.getElementById(inputId).value = '';
+
+        // Empty search query input
+        this.searchElm.value = '';
+    }
+
+    function initMap() {
+
+        // Set original location and map center
+        if (originalLocation !== '') {
+            originalLocation = originalLocation.split(',');
+            originalLocation = new google.maps.LatLng(parseFloat(originalLocation[0]),parseFloat(originalLocation[1]));
+            center = originalLocation;
+        } else {
+            center = new google.maps.LatLng(52.3793773,4.8981); // Amsterdam
+
+        }
+
+        // Init Google Places autocomplete
+        var locationField_search = new google.maps.places.Autocomplete(this.searchElm);
+
+        // Show Google Places location search
+        locationField_search.addListener('place_changed', function(e) {
+            var place = locationField_search.getPlace();
+
+            // If the place has a geometry, then present it on a map.
+            if (place.geometry.viewport) {
+                map.fitBounds(place.geometry.viewport);
+            } else {
+                map.setCenter(place.geometry.location);
+            }
+
+            placeMarker(place.geometry.location);
+        });
+
+        // Create map
+        map = new google.maps.Map(document.getElementById('fields-map'), {
+            zoom: 13,
+            center: center
+        });
+
+        // This event listener will call addMarker() when the map is clicked.
+        map.addListener('click', function(event) {
+            placeMarker(event.latLng);
+        });
+
+        // Set marker for original location
+        if (originalLocation !== '') {
+            placeMarker(originalLocation);
+        } else {
+            document.getElementById(inputId).addEventListener('keyup', function (event) {
+                var inputValue = event.srcElement.value;
+
+                if (inputValue.match(/[0-9],[0-9]/g)) {
+                    inputValue = inputValue.split(',');
+                    inputValue = new google.maps.LatLng(parseFloat(inputValue[0]),parseFloat(inputValue[1]));
+                    placeMarker(inputValue);
+                    map.setCenter(inputValue);
+                }
+            });
+        }
+    }
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key={{ googleApiKey }}&callback=initMap&libraries=places"></script>

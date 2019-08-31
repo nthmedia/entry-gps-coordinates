@@ -1,0 +1,26 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * Entry GPS Coordinates plugin for Craft CMS
+ *
+ * EntryCoordinates Field Settings
+ *
+ * @author    NTH media
+ * @copyright Copyright (c) 2019 NTH media
+ * @link      https://nthmedia.nl
+ * @package   EntryGpsCoordinates
+ * @since     1.0.0
+ */
+#}
+
+{% import "_includes/forms" as forms %}
+
+{% do view.registerAssetBundle("nthmedia\\entrygpscoordinates\\assetbundles\\entrycoordinatesfield\\EntryCoordinatesFieldAsset") %}
+
+{{ forms.textField({
+    label: 'Google API Key',
+    instructions: 'Enter your Google API key here. It needs permission to access "Maps JavaScript API" and "Places API".',
+    id: 'googleApiKey',
+    name: 'googleApiKey',
+    value: field['googleApiKey']})
+}}
