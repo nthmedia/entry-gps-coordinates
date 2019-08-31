@@ -1,6 +1,6 @@
 {
     "name": "nthmedia/entry-gps-coordinates",
-    "description": "Select a GPS location for an entry",
+    "description": "Entry GPS Coordinates plugin for Craft CMS 3.x",
     "type": "craft-plugin",
     "version": "1.0.0",
     "keywords": [

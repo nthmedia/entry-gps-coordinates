@@ -11,6 +11,7 @@
 namespace nthmedia\entrygpscoordinates;
 
 use nthmedia\entrygpscoordinates\fields\EntryCoordinates as EntryCoordinatesField;
+use nthmedia\entrygpscoordinates\twigextensions\EntryGpsCoordinatesTwigExtension;
 
 use Craft;
 use craft\base\Plugin;
@@ -77,6 +78,9 @@ class EntryGpsCoordinates extends Plugin
     {
         parent::init();
         self::$plugin = $this;
+
+        // Register Twig extension
+        Craft::$app->view->registerTwigExtension(new EntryGpsCoordinatesTwigExtension());
 
         // Register our fields
         Event::on(
