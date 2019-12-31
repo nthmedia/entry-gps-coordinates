@@ -376,7 +376,7 @@ class EntryCoordinates extends Field
                 'id' => $id,
                 'namespacedId' => $namespacedId,
 
-                'googleApiKey' => $this->googleApiKey
+                'googleApiKey' => Craft::parseEnv($this->googleApiKey)
             ]
         );
     }
