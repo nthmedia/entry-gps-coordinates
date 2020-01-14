@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Entry GPS Coordinates plugin for Craft CMS 3.x
  *
@@ -11,7 +12,6 @@
 namespace nthmedia\entrygpscoordinates\twigextensions;
 
 use nthmedia\entrygpscoordinates\EntryGpsCoordinates;
-
 use Craft;
 
 /**
@@ -63,11 +63,7 @@ class EntryGpsCoordinatesTwigExtension extends \Twig\Extension\AbstractExtension
      */
     public function coordinates($value = null)
     {
-        if (array_key_exists('coordinates', $value)) {
-            return $value['coordinates'];
-        }
-
-        return $value;
+        return $value->coordinates;
     }
 
     /**
@@ -77,11 +73,7 @@ class EntryGpsCoordinatesTwigExtension extends \Twig\Extension\AbstractExtension
      */
     public function latitude($value = null)
     {
-        if (array_key_exists('coordinates', $value) && preg_match('/^([-+]?([1-8]?\d(\.\d+)?|90(\.0+)?)),\s*([-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?))$/', $value['coordinates'], $matches)) {
-            return $matches[1];
-        }
-
-        return $value;
+        return $value->latitude;
     }
 
     /**
@@ -91,10 +83,6 @@ class EntryGpsCoordinatesTwigExtension extends \Twig\Extension\AbstractExtension
      */
     public function longitude($value = null)
     {
-        if (array_key_exists('coordinates', $value) && preg_match('/^([-+]?([1-8]?\d(\.\d+)?|90(\.0+)?)),\s*([-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?))$/', $value['coordinates'], $matches)) {
-            return $matches[5];
-        }
-
-        return $value;
+        return $value->longitude;
     }
 }
