@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Entry GPS Coordinates plugin for Craft CMS 3.x
  *
@@ -12,12 +13,14 @@ namespace nthmedia\entrygpscoordinates\fields;
 
 use nthmedia\entrygpscoordinates\EntryGpsCoordinates;
 use nthmedia\entrygpscoordinates\assetbundles\entrycoordinatesfield\EntryCoordinatesFieldAsset;
-
 use Craft;
 use craft\base\ElementInterface;
 use craft\base\Field;
+use nthmedia\entrygpscoordinates\graphql\EntryCoordinatesFieldTypeGenerator;
+use nthmedia\entrygpscoordinates\models\EntryCoordinatesModel;
 use yii\db\Schema;
 use craft\helpers\Json;
+use GraphQL\Type\Definition\Type;
 
 /**
  * EntryCoordinates Field
@@ -112,19 +115,22 @@ class EntryCoordinates extends Field
      */
     public function normalizeValue($value, ElementInterface $element = null)
     {
-        if (is_string($value))
+        if (is_string($value)) {
             $value = Json::decodeIfJson($value);
+        }
 
-        if (is_string($value))
+        if (is_string($value)) {
             $value = ['coordinates' => $value];
+        }
 
-        if ($value === null)
+        if ($value === null) {
             $value = [];
+        }
 
-        $value['coordinates'] = array_key_exists('coordinates', $value) ? $value['coordinates'] : '';
-        $value['searchQuery'] = array_key_exists('searchQuery', $value) ? $value['searchQuery'] : '';
-
-        return $value;
+        return new EntryCoordinatesModel([
+            'coordinates' => array_key_exists('coordinates', $value) ? $value['coordinates'] : null,
+            'searchQuery' => array_key_exists('searchQuery', $value) ? $value['searchQuery'] : null,
+        ]);
     }
 
     /**
@@ -347,7 +353,9 @@ class EntryCoordinates extends Field
      */
     public function getInputHtml($value, ElementInterface $element = null): string
     {
-        if (!$element) return '';
+        if (!$element) {
+            return '';
+        }
 
         // Register our asset bundle
         Craft::$app->getView()->registerAssetBundle(EntryCoordinatesFieldAsset::class);
@@ -379,5 +387,16 @@ class EntryCoordinates extends Field
                 'googleApiKey' => Craft::parseEnv($this->googleApiKey)
             ]
         );
+    }
+
+    public function getContentGqlType()
+    {
+        $typeArray = EntryCoordinatesFieldTypeGenerator::generateTypes($this);
+
+        return [
+            'name' => $this->handle,
+            'description' => 'Entry Coordinates field',
+            'type' => array_shift($typeArray),
+        ];
     }
 }

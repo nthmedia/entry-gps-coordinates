@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Entry GPS Coordinates plugin for Craft CMS 3.x
  *
@@ -12,14 +13,12 @@ namespace nthmedia\entrygpscoordinates;
 
 use nthmedia\entrygpscoordinates\fields\EntryCoordinates as EntryCoordinatesField;
 use nthmedia\entrygpscoordinates\twigextensions\EntryGpsCoordinatesTwigExtension;
-
 use Craft;
 use craft\base\Plugin;
 use craft\services\Plugins;
 use craft\events\PluginEvent;
 use craft\services\Fields;
 use craft\events\RegisterComponentTypesEvent;
-
 use yii\base\Event;
 
 /**
@@ -132,5 +131,4 @@ class EntryGpsCoordinates extends Plugin
 
     // Protected Methods
     // =========================================================================
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Entry GPS Coordinates plugin for Craft CMS 3.x
  *
