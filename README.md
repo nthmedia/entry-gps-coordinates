@@ -9,7 +9,7 @@ Pick a GPS location for an entry
 To install the plugin, follow these instructions.
 
 1. Open your terminal and go to your Craft project and tell composer to install the plugin
-```composer require nthmedia```
+```composer require nthmedia/entry-gps-coordinates```
 
 2. Activate the plugin in Craft through the command line or through the Control Panel under Settings → Plugins 
 ```./craft install/plugin entry-gps-coordinates```
