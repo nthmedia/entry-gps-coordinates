@@ -11,16 +11,16 @@
 
 namespace nthmedia\entrygpscoordinates\fields;
 
-use nthmedia\entrygpscoordinates\EntryGpsCoordinates;
-use nthmedia\entrygpscoordinates\assetbundles\entrycoordinatesfield\EntryCoordinatesFieldAsset;
 use Craft;
 use craft\base\ElementInterface;
 use craft\base\Field;
+use craft\helpers\Json;
+use GraphQL\Type\Definition\Type;
+use nthmedia\entrygpscoordinates\assetbundles\entrycoordinatesfield\EntryCoordinatesFieldAsset;
+use nthmedia\entrygpscoordinates\EntryGpsCoordinates;
 use nthmedia\entrygpscoordinates\graphql\EntryCoordinatesFieldTypeGenerator;
 use nthmedia\entrygpscoordinates\models\EntryCoordinatesModel;
 use yii\db\Schema;
-use craft\helpers\Json;
-use GraphQL\Type\Definition\Type;
 
 /**
  * EntryCoordinates Field
@@ -388,7 +388,7 @@ class EntryCoordinates extends Field
                 'id' => $id,
                 'namespacedId' => $namespacedId,
 
-                'googleApiKey' => Craft::parseEnv($this->googleApiKey)
+                'googleApiKey' => Craft::parseEnv($this->googleApiKey),
             ]
         );
     }

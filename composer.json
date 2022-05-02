@@ -27,7 +27,8 @@
         }
     ],
     "require": {
-        "craftcms/cms": "^3.0.0-RC1 || ^4.0.0-alpha"
+        "craftcms/cms": "^3.0.0-RC1 || ^4.0.0-alpha",
+        "craftcms/ecs": "dev-main"
     },
     "autoload": {
         "psr-4": {

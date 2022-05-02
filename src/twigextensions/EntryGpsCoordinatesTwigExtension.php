@@ -12,7 +12,6 @@
 namespace nthmedia\entrygpscoordinates\twigextensions;
 
 use nthmedia\entrygpscoordinates\EntryGpsCoordinates;
-use Craft;
 
 /**
  * @author    nthmedia

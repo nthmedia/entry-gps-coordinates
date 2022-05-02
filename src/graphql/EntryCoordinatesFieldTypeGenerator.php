@@ -24,16 +24,16 @@ class EntryCoordinatesFieldTypeGenerator implements GeneratorInterface
             'longitude' => Type::float(),
         ];
 
-        $coordinatesProperty =  GqlEntityRegistry::getEntity($typeName)
+        $coordinatesProperty = GqlEntityRegistry::getEntity($typeName)
             ?: GqlEntityRegistry::createEntity($typeName, new EntryCoordinatesFieldResolver([
             'name' => $typeName,
             'description' => 'This entity has all the EntryCoordinates properties',
-            'fields' => function () use ($props) {
+            'fields' => function() use ($props) {
                 return $props;
-            }
+            },
         ]));
 
-        TypeLoader::registerType($typeName, function () use ($coordinatesProperty) {
+        TypeLoader::registerType($typeName, function() use ($coordinatesProperty) {
             return $coordinatesProperty;
         });
 
