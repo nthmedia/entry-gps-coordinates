@@ -1,0 +1,19 @@
+parameters:
+    level: 5
+    paths:
+        - src
+    excludePaths:
+    scanFiles:
+        - vendor/twig/twig/src/Extension/CoreExtension.php
+    bootstrapFiles:
+        - vendor/yiisoft/yii2/Yii.php
+        - vendor/craftcms/cms/src/Craft.php
+    earlyTerminatingMethodCalls:
+        Craft:
+            - dd
+        yii\base\Application:
+            - end
+        yii\base\ErrorHandler:
+            - convertExceptionToError
+    ignoreErrors:
+        -  '#Call to an undefined method yii\\base\\View:#'

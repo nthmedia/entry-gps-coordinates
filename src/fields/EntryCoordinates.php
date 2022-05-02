@@ -137,19 +137,6 @@ class EntryCoordinates extends Field
         ]);
     }
 
-    /**
-     * Modifies an element query.
-     *
-     * This method will be called whenever elements are being searched for that may have this field assigned to them.
-     *
-     * If the method returns `false`, the query will be stopped before it ever gets a chance to execute.
-     *
-     * @param ElementQueryInterface $query The element query
-     * @param mixed                 $value The value that was set on this field’s corresponding [[ElementCriteriaModel]] param,
-     *                                     if any.
-     *
-     * @return null|false `false` in the event that the method is sure that no elements are going to be found.
-     */
     public function serializeValue(mixed $value, ?\craft\base\ElementInterface $element = null): mixed
     {
         return parent::serializeValue(Json::encode($value), $element);

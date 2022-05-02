@@ -11,7 +11,9 @@
 
 namespace nthmedia\entrygpscoordinates\twigextensions;
 
-use nthmedia\entrygpscoordinates\EntryGpsCoordinates;
+use nthmedia\entrygpscoordinates\models\EntryCoordinatesModel;
+use Twig\TwigFilter;
+use Twig\TwigFunction;
 
 /**
  * @author    nthmedia
@@ -37,9 +39,9 @@ class EntryGpsCoordinatesTwigExtension extends \Twig\Extension\AbstractExtension
     public function getFilters()
     {
         return [
-            new \Twig\TwigFilter('coordinates', [$this, 'coordinates']),
-            new \Twig\TwigFilter('latitude', [$this, 'latitude']),
-            new \Twig\TwigFilter('longitude', [$this, 'longitude']),
+            new TwigFilter('coordinates', [$this, 'coordinates']),
+            new TwigFilter('latitude', [$this, 'latitude']),
+            new TwigFilter('longitude', [$this, 'longitude']),
         ];
     }
 
@@ -49,38 +51,38 @@ class EntryGpsCoordinatesTwigExtension extends \Twig\Extension\AbstractExtension
     public function getFunctions()
     {
         return [
-            new \Twig\TwigFunction('coordinates', [$this, 'coordinates']),
-            new \Twig\TwigFunction('latitude', [$this, 'latitude']),
-            new \Twig\TwigFunction('longitude', [$this, 'longitude']),
+            new TwigFunction('coordinates', [$this, 'coordinates']),
+            new TwigFunction('latitude', [$this, 'latitude']),
+            new TwigFunction('longitude', [$this, 'longitude']),
         ];
     }
 
     /**
-     * @param null $value
+     * @param ?EntryCoordinatesModel $value
      *
      * @return string
      */
-    public function coordinates($value = null)
+    public function coordinates(?EntryCoordinatesModel $value = null)
     {
         return $value->coordinates;
     }
 
     /**
-     * @param null $value
+     * @param ?EntryCoordinatesModel $value
      *
      * @return string
      */
-    public function latitude($value = null)
+    public function latitude(?EntryCoordinatesModel $value = null)
     {
         return $value->latitude;
     }
 
     /**
-     * @param null $value
+     * @param ?EntryCoordinatesModel $value
      *
      * @return string
      */
-    public function longitude($value = null)
+    public function longitude(?EntryCoordinatesModel $value = null)
     {
         return $value->longitude;
     }
