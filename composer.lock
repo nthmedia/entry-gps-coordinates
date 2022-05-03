@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "73a64180b11d17033891295bd2670351",
+    "content-hash": "2f3e6ea335dba19172aefd73869d909c",
     "packages": [
         {
             "name": "cebe/markdown",
@@ -799,39 +799,6 @@
                 "source": "https://github.com/craftcms/cms"
             },
             "time": "2022-04-28T23:38:33+00:00"
-        },
-        {
-            "name": "craftcms/ecs",
-            "version": "dev-main",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/craftcms/ecs.git",
-                "reference": "6534ed578927b9e1da0acd44584c9341e0e87fbe"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/craftcms/ecs/zipball/6534ed578927b9e1da0acd44584c9341e0e87fbe",
-                "reference": "6534ed578927b9e1da0acd44584c9341e0e87fbe",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.2.5|^8.0.2",
-                "symplify/easy-coding-standard": "^10.0"
-            },
-            "default-branch": true,
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "craft\\ecs\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "description": "Easy Coding Standard configurations for Craft CMS projects",
-            "support": {
-                "issues": "https://github.com/craftcms/ecs/issues",
-                "source": "https://github.com/craftcms/ecs/tree/main"
-            },
-            "time": "2022-04-12T20:55:14+00:00"
         },
         {
             "name": "craftcms/oauth2-craftid",
@@ -5216,61 +5183,6 @@
             "time": "2022-01-26T16:32:32+00:00"
         },
         {
-            "name": "symplify/easy-coding-standard",
-            "version": "10.2.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symplify/easy-coding-standard.git",
-                "reference": "d847795500b929f68ed115357658122d64017f77"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symplify/easy-coding-standard/zipball/d847795500b929f68ed115357658122d64017f77",
-                "reference": "d847795500b929f68ed115357658122d64017f77",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.1"
-            },
-            "conflict": {
-                "friendsofphp/php-cs-fixer": "<3.0",
-                "squizlabs/php_codesniffer": "<3.6"
-            },
-            "bin": [
-                "bin/ecs"
-            ],
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-main": "9.5-dev"
-                }
-            },
-            "autoload": {
-                "files": [
-                    "bootstrap.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "Prefixed scoped version of ECS package",
-            "support": {
-                "source": "https://github.com/symplify/easy-coding-standard/tree/10.2.2"
-            },
-            "funding": [
-                {
-                    "url": "https://www.paypal.me/rectorphp",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/tomasvotruba",
-                    "type": "github"
-                }
-            ],
-            "time": "2022-04-17T10:41:19+00:00"
-        },
-        {
             "name": "theiconic/name-parser",
             "version": "v1.2.11",
             "source": {
@@ -6679,6 +6591,39 @@
     ],
     "packages-dev": [
         {
+            "name": "craftcms/ecs",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/craftcms/ecs.git",
+                "reference": "6534ed578927b9e1da0acd44584c9341e0e87fbe"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/craftcms/ecs/zipball/6534ed578927b9e1da0acd44584c9341e0e87fbe",
+                "reference": "6534ed578927b9e1da0acd44584c9341e0e87fbe",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.2.5|^8.0.2",
+                "symplify/easy-coding-standard": "^10.0"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "craft\\ecs\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "Easy Coding Standard configurations for Craft CMS projects",
+            "support": {
+                "issues": "https://github.com/craftcms/ecs/issues",
+                "source": "https://github.com/craftcms/ecs/tree/main"
+            },
+            "time": "2022-04-12T20:55:14+00:00"
+        },
+        {
             "name": "craftcms/rector",
             "version": "dev-main",
             "source": {
@@ -7469,6 +7414,61 @@
             "time": "2022-04-17T10:40:52+00:00"
         },
         {
+            "name": "symplify/easy-coding-standard",
+            "version": "10.2.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symplify/easy-coding-standard.git",
+                "reference": "7303e9b0a6ac61b2a0cf5185a2078b7af25fba9d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symplify/easy-coding-standard/zipball/7303e9b0a6ac61b2a0cf5185a2078b7af25fba9d",
+                "reference": "7303e9b0a6ac61b2a0cf5185a2078b7af25fba9d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1"
+            },
+            "conflict": {
+                "friendsofphp/php-cs-fixer": "<3.0",
+                "squizlabs/php_codesniffer": "<3.6"
+            },
+            "bin": [
+                "bin/ecs"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "9.5-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "bootstrap.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Prefixed scoped version of ECS package",
+            "support": {
+                "source": "https://github.com/symplify/easy-coding-standard/tree/10.2.3"
+            },
+            "funding": [
+                {
+                    "url": "https://www.paypal.me/rectorphp",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/tomasvotruba",
+                    "type": "github"
+                }
+            ],
+            "time": "2022-05-03T14:07:44+00:00"
+        },
+        {
             "name": "symplify/easy-testing",
             "version": "10.2.2",
             "source": {
@@ -7799,12 +7799,14 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "craftcms/ecs": 20,
-        "craftcms/rector": 20
+        "craftcms/rector": 20,
+        "craftcms/ecs": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "php": "^8.0"
+    },
     "platform-dev": [],
     "plugin-api-version": "2.3.0"
 }
