@@ -16,20 +16,20 @@
 {% import "_includes/forms" as forms %}
 {% set suffix = random() %}
 
-{{ forms.textField({
-    id: name,
-    class: 'location-coords-' ~ suffix,
-    name: name ~ '[coordinates]',
-    value: value.coordinates
-}) }}
+<div style="display: flex; align-items: center; margin-bottom: 10px;">
+    <label style="margin-right: 10px;">Search:</label>
+    {{ forms.text({
+        id: 'location-search-' ~ suffix,
+        class: 'location-search-' ~ suffix,
+        name: name ~ '[searchQuery]',
+        value: value.searchQuery,
+        placeholder: 'Search Address'
+    }) }}
+</div>
 
-{{ forms.text({
-    id: 'location-search-' ~ suffix,
-    class: 'location-search-' ~ suffix,
-    name: name ~ '[searchQuery]',
-    value: value.searchQuery,
-    placeholder: 'Search Address'
-}) }}
+
+
+
 
 <style>
     /* Always set the map height explicitly to define the size of the div
@@ -42,9 +42,27 @@
 
 
 <div class="fields-map fields-map-{{ suffix }}"></div>
-<input onclick="deleteMarker();" type="button" value="Delete Marker" class="btn">
+
+<div style="margin-top: 10px; display: flex; align-items: center; margin-bottom: 10px;">
+    <label style="margin-right: 10px;">Coordinates:</label>
+    {{ forms.text({
+        id: name,
+        class: 'location-coords-' ~ suffix,
+        name: name ~ '[coordinates]',
+        value: value.coordinates
+    }) }}
+    <label style="margin-left: 10px; margin-right: 10px;">Address:</label>
+    {{ forms.text({
+        id: name,
+        class: 'location-address-' ~ suffix,
+        name: name ~ '[address]',
+        value: value.address
+    }) }}
+    <input  type="button" value="Delete Marker" class="location-delete-{{ suffix }} btn" style="margin-left: 10px;">
+</div>
+
 
 {% js %}
-    EntryCoordinates.addField('{{ name }}', { suffix: '{{ suffix }}', originalLocation: '{{ value.coordinates }}', apiKey: '{{ googleApiKey }}'} );
+    EntryCoordinates.setApiKey('{{ googleApiKey }}');
+    EntryCoordinates.addField('{{ name }}', { suffix: '{{ suffix }}', originalLocation: '{{ value.coordinates }}', apiKey: '{{ googleApiKey }}'});
 {% endjs %}
-

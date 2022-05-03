@@ -72,7 +72,21 @@ class CoordinatesField {
 
         this.searchInput = document.querySelector('.location-search-' + this.options.suffix);
         this.coordsInput = document.querySelector('.location-coords-' + this.options.suffix);
+        this.addressInput = document.querySelector('.location-address-' + this.options.suffix);
         this.mapElement = document.querySelector('.fields-map-' + this.options.suffix);
+        this.deleteButton = document.querySelector('.location-delete-' + this.options.suffix);
+
+        // let marker = this.marker;
+        let deleteMarker = this.deleteMarker;
+
+        let marker = this.marker;
+        let coordsInput = this.coordsInput;
+        let addressInput = this.addressInput;
+        let searchInput = this.searchInput;
+
+        this.deleteButton.addEventListener('click', function () {
+            deleteMarker(this.marker, coordsInput, addressInput, searchInput);
+        });
     }
 
     // Deletes all markers in the array by removing references to them.
@@ -80,8 +94,10 @@ class CoordinatesField {
     placeMarker = (location) => {
         console.log("placeMarker");
         console.log(location);
+        console.log(this.marker);
 
         if (this.marker) {
+            console.log('this.marker exists');
             this.marker.setPosition(location);
         } else {
             let marker = new google.maps.Marker({
@@ -90,22 +106,23 @@ class CoordinatesField {
                 draggable: true,
             });
             this.marker = marker;
+            console.log('Set this.marker');
         }
 
-
         let coordsInput = this.coordsInput;
-        let searchInput = this.searchInput;
+        let addressInput = this.addressInput;
+
         let updateInputFields = this.updateInputFields;
         let transformLatLngToString = this.transformLatLngToString;
 
-        updateInputFields(this.marker, transformLatLngToString, coordsInput, searchInput);;
+        updateInputFields(this.marker, transformLatLngToString, coordsInput, addressInput);;
 
         this.marker.addListener('position_changed', function () {
-            updateInputFields(this, transformLatLngToString, coordsInput, searchInput);
+            updateInputFields(this, transformLatLngToString, coordsInput, addressInput);
         });
     }
 
-    updateInputFields(marker, transformLatLngToString, coordsInput, searchInput) {
+    updateInputFields(marker, transformLatLngToString, coordsInput, addressInput) {
         let latLng = marker.getPosition();
 
         coordsInput.value = transformLatLngToString(latLng)
@@ -115,22 +132,22 @@ class CoordinatesField {
         geocoder.geocode({ 'latLng': latLng }, function (results, status) {
             if (status === google.maps.GeocoderStatus.OK) {
                 if (results[1]) {
-                    searchInput.value = results[1].formatted_address
+                    addressInput.value = results[1].formatted_address
                 }
             }
         });
     }
 
-    // deleteMarker() {
-    //     this.marker.setMap(null);
-    //     this.marker = null;
-    //
-    //     // Empty coordinates input
-    //     this.coordsInput.value = '';
-    //
-    //     // Empty search query input
-    //     this.searchInput.value = '';
-    // }
+    deleteMarker(marker, coordsInput, addressInput, searchInput) {
+        if (marker) {
+            marker.setMap(null);
+            marker = null;
+        }
+
+        coordsInput.value = '';
+        searchInput.value = '';
+        addressInput.value = '';
+    }
 
     transformLatLngToString(latLng) {
         // Used to transform a LatLng object to a String (google.maps.LatLng)
@@ -218,8 +235,6 @@ class EntryCoordinatesContainer {
     }
 
     loadMapsScript = (apiKey) => {
-        console.log('Load Google Maps script');
-
         if (!window.mapsScriptLoaded) {
             let script = document.createElement('script');
             script.src = 'https://maps.googleapis.com/maps/api/js?key=' + apiKey + '&callback=initMap&libraries=places';
@@ -234,18 +249,20 @@ class EntryCoordinatesContainer {
     }
 
     initMarkers = () => {
-        console.log('Init markers');
-        console.log(this.markers);
-
         this.markers.forEach((marker) => {
             marker.initThisMap();
         });
     }
 
+    setApiKey = (apiKey) => {
+        this.apiKey = apiKey
+    }
+
     addField = (name, options) => {
         if (!this.map) {
-            this.loadMapsScript(options.apiKey)
+            this.loadMapsScript(this.apiKey ?? options.apiKey)
         }
+
         this.markers.push(new CoordinatesField(name, options));
 
         return true;
