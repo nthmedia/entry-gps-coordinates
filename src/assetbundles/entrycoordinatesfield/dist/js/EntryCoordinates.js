@@ -53,3 +53,203 @@
     };
 
 })( jQuery, window, document );
+
+class CoordinatesField {
+    options = {
+        originalLocation: null,
+        suffix: null
+    }
+
+    map = null;
+    marker = null;
+
+    searchInput = null;
+    coordsInput = null;
+    mapElement = null;
+
+    constructor (name, options) {
+        this.options = options;
+
+        this.searchInput = document.querySelector('.location-search-' + this.options.suffix);
+        this.coordsInput = document.querySelector('.location-coords-' + this.options.suffix);
+        this.mapElement = document.querySelector('.fields-map-' + this.options.suffix);
+    }
+
+    // Deletes all markers in the array by removing references to them.
+    // Adds a marker to the map and push to the array.
+    placeMarker = (location) => {
+        console.log("placeMarker");
+        console.log(location);
+
+        if (this.marker) {
+            this.marker.setPosition(location);
+        } else {
+            let marker = new google.maps.Marker({
+                position: location,
+                map: this.map,
+                draggable: true,
+            });
+            this.marker = marker;
+        }
+
+
+        let coordsInput = this.coordsInput;
+        let searchInput = this.searchInput;
+        let updateInputFields = this.updateInputFields;
+        let transformLatLngToString = this.transformLatLngToString;
+
+        updateInputFields(this.marker, transformLatLngToString, coordsInput, searchInput);;
+
+        this.marker.addListener('position_changed', function () {
+            updateInputFields(this, transformLatLngToString, coordsInput, searchInput);
+        });
+    }
+
+    updateInputFields(marker, transformLatLngToString, coordsInput, searchInput) {
+        let latLng = marker.getPosition();
+
+        coordsInput.value = transformLatLngToString(latLng)
+
+        // Update Search input with the address for the updated coordinates
+        let geocoder = new google.maps.Geocoder();
+        geocoder.geocode({ 'latLng': latLng }, function (results, status) {
+            if (status === google.maps.GeocoderStatus.OK) {
+                if (results[1]) {
+                    searchInput.value = results[1].formatted_address
+                }
+            }
+        });
+    }
+
+    // deleteMarker() {
+    //     this.marker.setMap(null);
+    //     this.marker = null;
+    //
+    //     // Empty coordinates input
+    //     this.coordsInput.value = '';
+    //
+    //     // Empty search query input
+    //     this.searchInput.value = '';
+    // }
+
+    transformLatLngToString(latLng) {
+        // Used to transform a LatLng object to a String (google.maps.LatLng)
+        return latLng.lat() + ',' + latLng.lng();
+    }
+
+    transformLocationToLatLng(locationString) {
+        let string = locationString.split(',');
+
+        return new google.maps.LatLng(parseFloat(string[0]), parseFloat(string[1]));
+    }
+
+    getCenter(location) {
+        console.log("getCenter");
+        console.log("location: " + location);
+        if (location !== '') {
+            return this.transformLocationToLatLng(location);
+        }
+
+        console.log("No location. Fallback to Amsterdam")
+        return this.transformLocationToLatLng("52.3793773,4.8981");
+    }
+
+    initThisMap() {
+        console.log("initThisMap");
+
+        let placeMarker = this.placeMarker;
+
+        // Create map instance
+        const map = new google.maps.Map(this.mapElement, {
+            zoom: 13,
+            center: this.getCenter(this.options.originalLocation)
+        });
+
+        this.map = map;
+
+        // Init Google Places autocomplete
+        const autocomplete = new google.maps.places.Autocomplete(this.searchInput);
+
+        // Show Google Places location search
+        autocomplete.addListener('place_changed', () => {
+            let place = autocomplete.getPlace();
+
+            // If the place has a geometry, then present it on a map.
+            if (place.geometry.viewport) {
+                map.fitBounds(place.geometry.viewport);
+            } else {
+                map.setCenter(place.geometry.location);
+            }
+
+            placeMarker(place.geometry.location);
+        });
+
+        // This event listener will call addMarker() when the map is clicked.
+        map.addListener('click', function(event) {
+            placeMarker(event.latLng);
+        });
+
+        // // Set marker for original location
+        if (this.options.originalLocation) {
+            placeMarker(this.transformLocationToLatLng(this.options.originalLocation));
+        }
+        else {
+            this.coordsInput.addEventListener('keyup', function (event) {
+                let inputValue = event.srcElement.value;
+
+                if (inputValue.match(/[0-9],[0-9]/g)) {
+
+                    placeMarker(this.transformLocationToLatLng(inputValue));
+
+                    this.map.setCenter(inputValue);
+                }
+            });
+        }
+    }
+}
+
+class EntryCoordinatesContainer {
+    markers = []
+    map = null;
+    apiKey = null;
+
+    constructor () {
+
+    }
+
+    loadMapsScript = (apiKey) => {
+        console.log('Load Google Maps script');
+
+        if (!window.mapsScriptLoaded) {
+            let script = document.createElement('script');
+            script.src = 'https://maps.googleapis.com/maps/api/js?key=' + apiKey + '&callback=initMap&libraries=places';
+            script.async = true;
+
+            window.initMap = this.initMarkers;
+
+            document.head.appendChild(script);
+
+            window.mapsScriptLoaded = true;
+        }
+    }
+
+    initMarkers = () => {
+        console.log('Init markers');
+        console.log(this.markers);
+
+        this.markers.forEach((marker) => {
+            marker.initThisMap();
+        });
+    }
+
+    addField = (name, options) => {
+        if (!this.map) {
+            this.loadMapsScript(options.apiKey)
+        }
+        this.markers.push(new CoordinatesField(name, options));
+
+        return true;
+    }
+}
+
+window.EntryCoordinates = new EntryCoordinatesContainer;
