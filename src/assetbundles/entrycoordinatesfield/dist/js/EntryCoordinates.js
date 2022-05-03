@@ -92,12 +92,7 @@ class CoordinatesField {
     // Deletes all markers in the array by removing references to them.
     // Adds a marker to the map and push to the array.
     placeMarker = (location) => {
-        console.log("placeMarker");
-        console.log(location);
-        console.log(this.marker);
-
         if (this.marker) {
-            console.log('this.marker exists');
             this.marker.setPosition(location);
         } else {
             let marker = new google.maps.Marker({
@@ -106,7 +101,6 @@ class CoordinatesField {
                 draggable: true,
             });
             this.marker = marker;
-            console.log('Set this.marker');
         }
 
         let coordsInput = this.coordsInput;
@@ -161,19 +155,14 @@ class CoordinatesField {
     }
 
     getCenter(location) {
-        console.log("getCenter");
-        console.log("location: " + location);
         if (location !== '') {
             return this.transformLocationToLatLng(location);
         }
 
-        console.log("No location. Fallback to Amsterdam")
         return this.transformLocationToLatLng("52.3793773,4.8981");
     }
 
     initThisMap() {
-        console.log("initThisMap");
-
         let placeMarker = this.placeMarker;
 
         // Create map instance
