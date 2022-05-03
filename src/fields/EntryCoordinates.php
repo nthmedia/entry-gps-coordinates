@@ -134,6 +134,7 @@ class EntryCoordinates extends Field
         return new EntryCoordinatesModel([
             'coordinates' => array_key_exists('coordinates', $value) ? $value['coordinates'] : null,
             'searchQuery' => array_key_exists('searchQuery', $value) ? $value['searchQuery'] : null,
+            'address' => array_key_exists('address', $value) ? $value['address'] : null,
         ]);
     }
 

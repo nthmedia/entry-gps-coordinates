@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.1.0 - 2022-05-03
+### Changed
+- Refactor Javascript to support multiple instances (Issue #16)
+- Update lay-out to also show the actual address in a separate field (Issue #13, thanks @GMConsultant)
+
+
 ## 2.0.0 - 2022-05-02
 ### Changed
 - Craft v4 compatibility
@@ -21,8 +27,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 ## 1.2.1 - 2020-01-02
 ### Changed
-- Fix parsing Google API key from environment vars (@jrrdnx)
-- Fix parsing negative coordinates through latitude and longitude helpers (Issue #5, jrrdnx)
+- Fix parsing Google API key from environment vars (thanks @jrrdnx)
+- Fix parsing negative coordinates through latitude and longitude helpers (Issue #5, thanks @jrrdnx)
 
 
 ## 1.2.0 - 2019-12-23

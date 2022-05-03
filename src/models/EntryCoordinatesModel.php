@@ -10,6 +10,7 @@ class EntryCoordinatesModel extends BaseModel
 
     public ?string $coordinates = null;
     public ?string $searchQuery = null;
+    public ?string $address = null;
     public ?string $latitude = null;
     public ?string $longitude = null;
 

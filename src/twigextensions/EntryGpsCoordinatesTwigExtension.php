@@ -40,6 +40,8 @@ class EntryGpsCoordinatesTwigExtension extends \Twig\Extension\AbstractExtension
     {
         return [
             new TwigFilter('coordinates', [$this, 'coordinates']),
+            new TwigFilter('address', [$this, 'address']),
+            new TwigFilter('searchQuery', [$this, 'searchQuery']),
             new TwigFilter('latitude', [$this, 'latitude']),
             new TwigFilter('longitude', [$this, 'longitude']),
         ];
@@ -52,6 +54,8 @@ class EntryGpsCoordinatesTwigExtension extends \Twig\Extension\AbstractExtension
     {
         return [
             new TwigFunction('coordinates', [$this, 'coordinates']),
+            new TwigFunction('address', [$this, 'address']),
+            new TwigFunction('searchQuery', [$this, 'searchQuery']),
             new TwigFunction('latitude', [$this, 'latitude']),
             new TwigFunction('longitude', [$this, 'longitude']),
         ];
@@ -74,7 +78,7 @@ class EntryGpsCoordinatesTwigExtension extends \Twig\Extension\AbstractExtension
      */
     public function latitude(?EntryCoordinatesModel $value = null)
     {
-        return $value->latitude;
+        return $value->getLatitude();
     }
 
     /**
@@ -84,6 +88,26 @@ class EntryGpsCoordinatesTwigExtension extends \Twig\Extension\AbstractExtension
      */
     public function longitude(?EntryCoordinatesModel $value = null)
     {
-        return $value->longitude;
+        return $value->getLongitude();
+    }
+
+    /**
+     * @param ?EntryCoordinatesModel $value
+     *
+     * @return string
+     */
+    public function searchQuery(?EntryCoordinatesModel $value = null)
+    {
+        return $value->searchQuery;
+    }
+
+    /**
+     * @param ?EntryCoordinatesModel $value
+     *
+     * @return string
+     */
+    public function address(?EntryCoordinatesModel $value = null)
+    {
+        return $value->address;
     }
 }

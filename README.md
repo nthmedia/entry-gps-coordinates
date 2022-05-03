@@ -19,7 +19,9 @@ To install the plugin, follow these instructions.
 ## Usage in Twig
 
 ```
-{{ entry.fieldName | coordinates }} => 47.11736635136284,12.82762888348384
-{{ entry.fieldName | latitude }} => 47.11736635136284
-{{ entry.fieldName | longitude }} => 12.82762888348384
+{{ entry.fieldName | searchQuery }} => Van Gogh Museum
+{{ entry.fieldName | coordinates }} => 52.3584159,4.8810756
+{{ entry.fieldName | latitude }} => 52.3584159
+{{ entry.fieldName | longitude }} => 4.8810756
+{{ entry.fieldName | address }} => Paulus Potterstraat 7, 1071 CX Amsterdam, Netherlands
 ```
