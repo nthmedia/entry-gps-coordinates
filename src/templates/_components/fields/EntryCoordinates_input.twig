@@ -16,6 +16,15 @@
 {% import "_includes/forms" as forms %}
 {% set suffix = random() %}
 
+{% if value is empty %}
+    {% set value = {
+        searchQuery: "",
+        coordinates: "",
+        address: "",
+        zoomLevel: "",
+    } %}
+{% endif %}
+
 <div style="display: flex; align-items: center; margin-bottom: 10px;">
     <label style="margin-right: 10px;">Search:</label>
     {{ forms.text({
@@ -58,11 +67,20 @@
         name: name ~ '[address]',
         value: value.address
     }) }}
-    <input  type="button" value="Delete Marker" class="location-delete-{{ suffix }} btn" style="margin-left: 10px;">
-</div>
 
+    {{ tag('input', {
+        type: 'hidden',
+        id: name,
+        class: 'location-zoom-' ~ suffix,
+        name: name ~ '[zoomLevel]',
+        value: value.zoomLevel
+
+    }) }}
+
+    <input type="button" value="Delete Marker" class="location-delete-{{ suffix }} btn" style="margin-left: 10px;">
+</div>
 
 {% js %}
     EntryCoordinates.setApiKey('{{ googleApiKey }}');
-    EntryCoordinates.addField('{{ name }}', { suffix: '{{ suffix }}', originalLocation: '{{ value.coordinates }}', apiKey: '{{ googleApiKey }}'});
+    EntryCoordinates.addField('{{ name }}', { suffix: '{{ suffix }}', originalLocation: '{{ value.coordinates }}', zoomLevel: '{{ value.zoomLevel }}', defaultCenterCoordinates: '{{ defaultCenterCoordinates }}', defaultZoomLevel: '{{ defaultZoomLevel ?? 1 }}', apiKey: '{{ googleApiKey }}'});
 {% endjs %}

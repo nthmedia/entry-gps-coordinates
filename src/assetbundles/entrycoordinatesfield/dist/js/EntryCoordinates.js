@@ -57,7 +57,9 @@
 class CoordinatesField {
     options = {
         originalLocation: null,
-        suffix: null
+        suffix: null,
+        zoomLevel: null,
+        defaultZoomLevel: null,
     }
 
     map = null;
@@ -65,28 +67,22 @@ class CoordinatesField {
 
     searchInput = null;
     coordsInput = null;
+    zoomInput = null;
     mapElement = null;
 
     constructor (name, options) {
         this.options = options;
 
+        if (this.options.zoomLevel === '' || this.options.zoomLevel === null) {
+            this.options.zoomLevel = options.defaultZoomLevel;
+        }
+
         this.searchInput = document.querySelector('.location-search-' + this.options.suffix);
         this.coordsInput = document.querySelector('.location-coords-' + this.options.suffix);
         this.addressInput = document.querySelector('.location-address-' + this.options.suffix);
+        this.zoomInput = document.querySelector('.location-zoom-' + this.options.suffix);
+
         this.mapElement = document.querySelector('.fields-map-' + this.options.suffix);
-        this.deleteButton = document.querySelector('.location-delete-' + this.options.suffix);
-
-        // let marker = this.marker;
-        let deleteMarker = this.deleteMarker;
-
-        let marker = this.marker;
-        let coordsInput = this.coordsInput;
-        let addressInput = this.addressInput;
-        let searchInput = this.searchInput;
-
-        this.deleteButton.addEventListener('click', function () {
-            deleteMarker(this.marker, coordsInput, addressInput, searchInput);
-        });
     }
 
     // Deletes all markers in the array by removing references to them.
@@ -101,6 +97,7 @@ class CoordinatesField {
                 draggable: true,
             });
             this.marker = marker;
+
         }
 
         let coordsInput = this.coordsInput;
@@ -132,15 +129,20 @@ class CoordinatesField {
         });
     }
 
-    deleteMarker(marker, coordsInput, addressInput, searchInput) {
-        if (marker) {
-            marker.setMap(null);
-            marker = null;
+    deleteMarker = () => {
+        if (this.marker) {
+            this.marker.setMap(null);
+            this.marker = null;
         }
 
-        coordsInput.value = '';
-        searchInput.value = '';
-        addressInput.value = '';
+        this.coordsInput.value = '';
+        this.searchInput.value = '';
+        this.addressInput.value = '';
+        this.zoomInput.value = '';
+    }
+
+    setZoomLevel = (zoomLevel) => {
+        this.zoomInput.value = zoomLevel.toString();
     }
 
     transformLatLngToString(latLng) {
@@ -159,15 +161,23 @@ class CoordinatesField {
             return this.transformLocationToLatLng(location);
         }
 
+        if (this.options.defaultCenterCoordinates !== null && this.options.defaultCenterCoordinates !== '') {
+            return this.transformLocationToLatLng(this.options.defaultCenterCoordinates);
+
+        }
         return this.transformLocationToLatLng("52.3793773,4.8981");
     }
 
     initThisMap() {
         let placeMarker = this.placeMarker;
+        let deleteMarker = this.deleteMarker;
+        let setZoomLevel = this.setZoomLevel;
+
+        let zoomLevel = this.options.zoomLevel;
 
         // Create map instance
         const map = new google.maps.Map(this.mapElement, {
-            zoom: 13,
+            zoom: parseInt(zoomLevel),
             center: this.getCenter(this.options.originalLocation)
         });
 
@@ -195,6 +205,10 @@ class CoordinatesField {
             placeMarker(event.latLng);
         });
 
+        map.addListener('zoom_changed', function() {
+            setZoomLevel(map.getZoom());
+        });
+
         // // Set marker for original location
         if (this.options.originalLocation) {
             placeMarker(this.transformLocationToLatLng(this.options.originalLocation));
@@ -211,6 +225,13 @@ class CoordinatesField {
                 }
             });
         }
+
+        this.deleteButton = document.querySelector('.location-delete-' + this.options.suffix);
+
+        this.deleteButton.addEventListener('click', function () {
+            deleteMarker();
+        });
+
     }
 }
 

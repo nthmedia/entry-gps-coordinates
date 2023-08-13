@@ -47,6 +47,9 @@ class EntryCoordinates extends Field
      */
     public $googleApiKey = null;
 
+    public $defaultCenterCoordinates = null;
+    public $defaultZoomLevel = null;
+
     // Static Methods
     // =========================================================================
 
@@ -80,6 +83,16 @@ class EntryCoordinates extends Field
             ['googleApiKey', 'required'],
             ['googleApiKey', 'string'],
             ['googleApiKey', 'default', 'value' => ''],
+        ]);
+
+        $rules = array_merge($rules, [
+            ['defaultCenterCoordinates', 'string'],
+            ['defaultCenterCoordinates', 'default', 'value' => "52.3793773,4.8981"],
+        ]);
+
+        $rules = array_merge($rules, [
+            ['defaultZoomLevel', 'number', 'min' => 1, 'max' => 20],
+            ['defaultZoomLevel', 'default', 'value' => 13],
         ]);
         return $rules;
     }
@@ -128,13 +141,23 @@ class EntryCoordinates extends Field
         }
 
         if ($value === null) {
-            $value = [];
+            return null;
+        }
+
+        $coordinates = array_key_exists('coordinates', $value) ? $value['coordinates'] : null;
+        $searchQuery = array_key_exists('searchQuery', $value) ? $value['searchQuery'] : null;
+        $address = array_key_exists('address', $value) ? $value['address'] : null;
+        $zoomLevel = array_key_exists('zoomLevel', $value) ? $value['zoomLevel'] : null;
+
+        if ($coordinates === null || $coordinates === '') {
+            return null;
         }
 
         return new EntryCoordinatesModel([
-            'coordinates' => array_key_exists('coordinates', $value) ? $value['coordinates'] : null,
-            'searchQuery' => array_key_exists('searchQuery', $value) ? $value['searchQuery'] : null,
-            'address' => array_key_exists('address', $value) ? $value['address'] : null,
+            'coordinates' => $coordinates,
+            'searchQuery' => $searchQuery,
+            'address' => $address,
+            'zoomLevel' => $zoomLevel,
         ]);
     }
 
@@ -377,6 +400,8 @@ class EntryCoordinates extends Field
                 'namespacedId' => $namespacedId,
 
                 'googleApiKey' => Craft::parseEnv($this->googleApiKey),
+                'defaultCenterCoordinates' => $this->defaultCenterCoordinates,
+                'defaultZoomLevel' => $this->defaultZoomLevel,
             ]
         );
     }

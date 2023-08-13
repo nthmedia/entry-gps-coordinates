@@ -13,6 +13,8 @@ class EntryCoordinatesModel extends BaseModel
     public ?string $address = null;
     public ?string $latitude = null;
     public ?string $longitude = null;
+    public ?string $zoomLevel = null;
+
 
     public function __construct($attributes = [], array $config = [])
     {

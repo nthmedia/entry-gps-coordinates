@@ -25,3 +25,21 @@
     value: field['googleApiKey'],
     suggestEnvVars: true})
 }}
+
+{{ forms.autosuggestField({
+    label: 'Default Zoom Level',
+    instructions: 'Default zoom level for the map. Enter a number between 1 and 20.',
+    id: 'defaultZoomLevel',
+    name: 'defaultZoomLevel',
+    value: field['defaultZoomLevel'],
+    suggestEnvVars: true})
+}}
+
+{{ forms.autosuggestField({
+    label: 'Default Center Coordinates',
+    instructions: 'Default center coordinates for the map. Default is Amsterdam.',
+    id: 'defaultCenterCoordinates',
+    name: 'defaultCenterCoordinates',
+    value: field['defaultCenterCoordinates'],
+    suggestEnvVars: true})
+}}
