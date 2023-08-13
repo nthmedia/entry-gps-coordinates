@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.2.0 - 2023-08-13
+### Added
+- Save zoom level (Issue #21)
+- Ability to set a default zoom level (Issue #21)
+- Ability to set a default map center
+
+### Changed
+- Bugfix: an empty value would still pass required field validation (Issue #22)
+
 ## 2.1.2 - 2022-05-03
 ### Changed
 - Move ECS to dev dependencies

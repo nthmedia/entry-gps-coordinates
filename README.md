@@ -23,5 +23,6 @@ To install the plugin, follow these instructions.
 {{ entry.fieldName | coordinates }} => 52.3584159,4.8810756
 {{ entry.fieldName | latitude }} => 52.3584159
 {{ entry.fieldName | longitude }} => 4.8810756
+{{ entry.fieldName | zoomLevel }} => 13
 {{ entry.fieldName | address }} => Paulus Potterstraat 7, 1071 CX Amsterdam, Netherlands
 ```

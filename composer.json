@@ -2,7 +2,7 @@
     "name": "nthmedia/entry-gps-coordinates",
     "description": "Entry GPS Coordinates plugin for Craft CMS 3.x",
     "type": "craft-plugin",
-    "version": "2.1.2",
+    "version": "2.2.0,
     "keywords": [
         "gps coordinates",
         "gps",

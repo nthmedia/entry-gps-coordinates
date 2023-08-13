@@ -44,6 +44,7 @@ class EntryGpsCoordinatesTwigExtension extends \Twig\Extension\AbstractExtension
             new TwigFilter('searchQuery', [$this, 'searchQuery']),
             new TwigFilter('latitude', [$this, 'latitude']),
             new TwigFilter('longitude', [$this, 'longitude']),
+            new TwigFilter('zoomLevel', [$this, 'zoomLevel']),
         ];
     }
 
@@ -58,6 +59,7 @@ class EntryGpsCoordinatesTwigExtension extends \Twig\Extension\AbstractExtension
             new TwigFunction('searchQuery', [$this, 'searchQuery']),
             new TwigFunction('latitude', [$this, 'latitude']),
             new TwigFunction('longitude', [$this, 'longitude']),
+            new TwigFunction('zoomLevel', [$this, 'zoomLevel']),
         ];
     }
 
@@ -109,5 +111,10 @@ class EntryGpsCoordinatesTwigExtension extends \Twig\Extension\AbstractExtension
     public function address(?EntryCoordinatesModel $value = null)
     {
         return $value->address;
+    }
+
+    public function zoomLevel(?EntryCoordinatesModel $value = null)
+    {
+        return $value->zoomLevel;
     }
 }
