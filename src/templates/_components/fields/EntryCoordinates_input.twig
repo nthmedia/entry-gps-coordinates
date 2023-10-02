@@ -82,5 +82,5 @@
 
 {% js %}
     EntryCoordinates.setApiKey('{{ googleApiKey }}');
-    EntryCoordinates.addField('{{ name }}', { suffix: '{{ suffix }}', originalLocation: '{{ value.coordinates }}', zoomLevel: '{{ value.zoomLevel }}', defaultCenterCoordinates: '{{ defaultCenterCoordinates }}', defaultZoomLevel: '{{ defaultZoomLevel ?? 1 }}', apiKey: '{{ googleApiKey }}'});
+    EntryCoordinates.addField('{{ name }}', { namespace: '{{ namespacedId }}', suffix: '{{ suffix }}', originalLocation: '{{ value.coordinates }}', zoomLevel: '{{ value.zoomLevel }}', defaultCenterCoordinates: '{{ defaultCenterCoordinates }}', defaultZoomLevel: '{{ defaultZoomLevel ?? 1 }}', apiKey: '{{ googleApiKey }}'});
 {% endjs %}

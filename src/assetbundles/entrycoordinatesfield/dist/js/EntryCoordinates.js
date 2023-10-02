@@ -77,12 +77,13 @@ class CoordinatesField {
             this.options.zoomLevel = options.defaultZoomLevel;
         }
 
-        this.searchInput = document.querySelector('.location-search-' + this.options.suffix);
-        this.coordsInput = document.querySelector('.location-coords-' + this.options.suffix);
-        this.addressInput = document.querySelector('.location-address-' + this.options.suffix);
-        this.zoomInput = document.querySelector('.location-zoom-' + this.options.suffix);
+        const container = document.getElementById(this.options.namespace + '-field');
+        this.searchInput = container.querySelector('.location-search-' + this.options.suffix);
+        this.coordsInput = container.querySelector('.location-coords-' + this.options.suffix);
+        this.addressInput = container.querySelector('.location-address-' + this.options.suffix);
+        this.zoomInput = container.querySelector('.location-zoom-' + this.options.suffix);
 
-        this.mapElement = document.querySelector('.fields-map-' + this.options.suffix);
+        this.mapElement = container.querySelector('.fields-map-' + this.options.suffix);
     }
 
     // Deletes all markers in the array by removing references to them.
@@ -273,7 +274,14 @@ class EntryCoordinatesContainer {
             this.loadMapsScript(this.apiKey ?? options.apiKey)
         }
 
-        this.markers.push(new CoordinatesField(name, options));
+        const marker = new CoordinatesField(name, options);
+
+        // Ensure markers created after the Google Maps API script is loaded are still initialised
+        if (typeof google !== 'undefined') {
+            marker.initThisMap();
+        }
+
+        this.markers.push(marker);
 
         return true;
     }
