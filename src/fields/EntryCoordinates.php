@@ -49,6 +49,17 @@ class EntryCoordinates extends Field
 
     public $defaultCenterCoordinates = null;
     public $defaultZoomLevel = null;
+    public $geocodingLanguage = 'en';
+
+    // Backwards compatibility: migrate old 'language' setting saved in the DB
+    public function __set($name, $value)
+    {
+        if ($name === 'language') {
+            $this->geocodingLanguage = $value;
+            return;
+        }
+        parent::__set($name, $value);
+    }
 
     // Static Methods
     // =========================================================================
@@ -94,6 +105,12 @@ class EntryCoordinates extends Field
             ['defaultZoomLevel', 'number', 'min' => 1, 'max' => 20],
             ['defaultZoomLevel', 'default', 'value' => 13],
         ]);
+
+        $rules = array_merge($rules, [
+            ['geocodingLanguage', 'string'],
+            ['geocodingLanguage', 'default', 'value' => 'en'],
+        ]);
+
         return $rules;
     }
 
@@ -148,6 +165,11 @@ class EntryCoordinates extends Field
         $searchQuery = array_key_exists('searchQuery', $value) ? $value['searchQuery'] : null;
         $address = array_key_exists('address', $value) ? $value['address'] : null;
         $zoomLevel = array_key_exists('zoomLevel', $value) ? $value['zoomLevel'] : null;
+        $streetNumber = array_key_exists('streetNumber', $value) ? $value['streetNumber'] : null;
+        $route = array_key_exists('route', $value) ? $value['route'] : null;
+        $locality = array_key_exists('locality', $value) ? $value['locality'] : null;
+        $postalCode = array_key_exists('postalCode', $value) ? $value['postalCode'] : null;
+        $country = array_key_exists('country', $value) ? $value['country'] : null;
 
         if ($coordinates === null || $coordinates === '') {
             return null;
@@ -158,6 +180,11 @@ class EntryCoordinates extends Field
             'searchQuery' => $searchQuery,
             'address' => $address,
             'zoomLevel' => $zoomLevel,
+            'streetNumber' => $streetNumber,
+            'route' => $route,
+            'locality' => $locality,
+            'postalCode' => $postalCode,
+            'country' => $country,
         ]);
     }
 
@@ -402,6 +429,8 @@ class EntryCoordinates extends Field
                 'googleApiKey' => Craft::parseEnv($this->googleApiKey),
                 'defaultCenterCoordinates' => $this->defaultCenterCoordinates,
                 'defaultZoomLevel' => $this->defaultZoomLevel,
+                'language' => $this->geocodingLanguage ?: 'en',
+                'uiLanguage' => substr(Craft::$app->language, 0, 2),
             ]
         );
     }

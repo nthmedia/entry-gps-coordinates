@@ -81,6 +81,11 @@ class CoordinatesField {
         this.coordsInput = document.querySelector('.location-coords-' + this.options.suffix);
         this.addressInput = document.querySelector('.location-address-' + this.options.suffix);
         this.zoomInput = document.querySelector('.location-zoom-' + this.options.suffix);
+        this.streetNumberInput = document.querySelector('.location-street-number-' + this.options.suffix);
+        this.routeInput = document.querySelector('.location-route-' + this.options.suffix);
+        this.localityInput = document.querySelector('.location-locality-' + this.options.suffix);
+        this.postalCodeInput = document.querySelector('.location-postal-code-' + this.options.suffix);
+        this.countryInput = document.querySelector('.location-country-' + this.options.suffix);
 
         this.mapElement = document.querySelector('.fields-map-' + this.options.suffix);
     }
@@ -99,31 +104,50 @@ class CoordinatesField {
             this.marker = marker;
         }
 
-        let coordsInput = this.coordsInput;
-        let addressInput = this.addressInput;
+        let inputs = {
+            coords: this.coordsInput,
+            address: this.addressInput,
+            streetNumber: this.streetNumberInput,
+            route: this.routeInput,
+            locality: this.localityInput,
+            postalCode: this.postalCodeInput,
+            country: this.countryInput,
+        };
 
         let updateInputFields = this.updateInputFields;
         let transformLatLngToString = this.transformLatLngToString;
+        let language = this.options.language;
 
-        updateInputFields(this.marker, transformLatLngToString, coordsInput, addressInput);
+        updateInputFields(this.marker, transformLatLngToString, inputs, language);
 
         this.marker.addListener('position_changed', function () {
-            updateInputFields(this, transformLatLngToString, coordsInput, addressInput);
+            updateInputFields(this, transformLatLngToString, inputs, language);
         });
     }
 
-    updateInputFields(marker, transformLatLngToString, coordsInput, addressInput) {
+    getAddressComponent = (components, type) => {
+        const component = components.find(c => c.types.includes(type));
+        return component ? component.long_name : '';
+    }
+
+    updateInputFields = (marker, transformLatLngToString, inputs, language) => {
         let latLng = marker.getPosition();
 
-        coordsInput.value = transformLatLngToString(latLng)
+        inputs.coords.value = transformLatLngToString(latLng);
 
-        // Update Search input with the address for the updated coordinates
         let geocoder = new google.maps.Geocoder();
-        geocoder.geocode({ 'latLng': latLng }, function (results, status) {
-            if (status === google.maps.GeocoderStatus.OK) {
-                if (results[1]) {
-                    addressInput.value = results[1].formatted_address
-                }
+        geocoder.geocode({ latLng, language }, (results, status) => {
+            if (status === google.maps.GeocoderStatus.OK && results[0]) {
+                // Skip Plus Code results (e.g. "9W93+2M Amsterdam") in favour of a readable address
+                const result = results.find(r => !r.formatted_address.match(/^[A-Z0-9]{4,6}\+/)) ?? results[0];
+                inputs.address.value = result.formatted_address;
+
+                const components = result.address_components;
+                inputs.streetNumber.value = this.getAddressComponent(components, 'street_number');
+                inputs.route.value = this.getAddressComponent(components, 'route');
+                inputs.locality.value = this.getAddressComponent(components, 'locality');
+                inputs.postalCode.value = this.getAddressComponent(components, 'postal_code');
+                inputs.country.value = this.getAddressComponent(components, 'country');
             }
         });
     }
@@ -138,6 +162,11 @@ class CoordinatesField {
         this.searchInput.value = '';
         this.addressInput.value = '';
         this.zoomInput.value = '';
+        this.streetNumberInput.value = '';
+        this.routeInput.value = '';
+        this.localityInput.value = '';
+        this.postalCodeInput.value = '';
+        this.countryInput.value = '';
     }
 
     setZoomLevel = (zoomLevel) => {
@@ -238,6 +267,7 @@ class EntryCoordinatesContainer {
     markers = []
     map = null;
     apiKey = null;
+    language = 'en';
 
     constructor () {
 
@@ -246,7 +276,7 @@ class EntryCoordinatesContainer {
     loadMapsScript = (apiKey) => {
         if (!window.mapsScriptLoaded) {
             let script = document.createElement('script');
-            script.src = 'https://maps.googleapis.com/maps/api/js?key=' + apiKey + '&callback=initMap&libraries=places&loading=async';
+            script.src = 'https://maps.googleapis.com/maps/api/js?key=' + apiKey + '&callback=initMap&libraries=places&loading=async&language=' + this.language;
 
             window.initMap = this.initMarkers;
 
@@ -264,6 +294,10 @@ class EntryCoordinatesContainer {
 
     setApiKey = (apiKey) => {
         this.apiKey = apiKey
+    }
+
+    setLanguage = (language) => {
+        this.language = language
     }
 
     addField = (name, options) => {

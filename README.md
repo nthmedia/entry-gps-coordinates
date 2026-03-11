@@ -20,23 +20,53 @@ composer require nthmedia/entry-gps-coordinates
 
 ## Configuration
 
-The field has three settings:
+The field has four settings:
 
 | Setting | Description |
 |---|---|
 | **Google API Key** | Required. Supports environment variables. |
 | **Default Zoom Level** | Number between 1 and 20. Default: 13. |
 | **Default Center Coordinates** | Coordinates in `lat,lng` format. Default: Amsterdam. |
+| **Geocoding language** | Language code for stored address data (e.g. `en`, `de`, `nl`, `fr`). Determines the language of saved fields like `address`, `country`, and `locality`. Default: `en`. The map interface language is set automatically based on the logged-in user's language. |
 
 ## Usage in Twig
 
 ```twig
-{{ entry.fieldName | searchQuery }}   {# Van Gogh Museum #}
-{{ entry.fieldName | coordinates }}   {# 52.3584159,4.8810756 #}
-{{ entry.fieldName | latitude }}      {# 52.3584159 #}
-{{ entry.fieldName | longitude }}     {# 4.8810756 #}
-{{ entry.fieldName | zoomLevel }}     {# 13 #}
-{{ entry.fieldName | address }}       {# Paulus Potterstraat 7, 1071 CX Amsterdam, Netherlands #}
+{{ entry.fieldName | searchQuery }}    {# Van Gogh Museum #}
+{{ entry.fieldName | coordinates }}    {# 52.3584159,4.8810756 #}
+{{ entry.fieldName | latitude }}       {# 52.3584159 #}
+{{ entry.fieldName | longitude }}      {# 4.8810756 #}
+{{ entry.fieldName | zoomLevel }}      {# 13 #}
+{{ entry.fieldName | address }}        {# Paulus Potterstraat 7, 1071 CX Amsterdam, Netherlands #}
+{{ entry.fieldName | streetNumber }}   {# 7 #}
+{{ entry.fieldName | route }}          {# Paulus Potterstraat #}
+{{ entry.fieldName | locality }}       {# Amsterdam #}
+{{ entry.fieldName | postalCode }}     {# 1071 CX #}
+{{ entry.fieldName | country }}        {# Netherlands #}
+```
+
+## GraphQL
+
+All field values are available via GraphQL:
+
+```graphql
+{
+  entries {
+    ... on YourSection_Entry {
+      yourFieldName {
+        searchQuery
+        coordinates
+        address
+        streetNumber
+        route
+        locality
+        postalCode
+        country
+        zoomLevel
+      }
+    }
+  }
+}
 ```
 
 ## Google Cloud API

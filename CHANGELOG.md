@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.4.0 - 2026-03-11
+### Added
+- Geocoding language setting per field: controls the language of stored address data (e.g. `en`, `de`, `nl`, `fr`). Defaults to `en`.
+- Map interface language is now set automatically based on the logged-in Craft user's language.
+- Extended address data stored per location: `streetNumber`, `route`, `locality`, `postalCode`, `country`
+- New Twig filters and functions: `streetNumber`, `route`, `locality`, `postalCode`, `country`
+- New GraphQL fields: `address`, `streetNumber`, `route`, `locality`, `postalCode`, `country`
+- UI labels (Search, Coordinates, Address, Delete Marker) translated into 10 languages: NL, DE, FR, ES, IT, PT, DA, NB, SV, PL
+
+### Fixed
+- Geocoder now uses `results[0]` (most accurate result) instead of `results[1]`
+
 ## 2.3.1 - 2026-03-11
 ### Fixed
 - Map no longer initialises when a new Neo/Matrix block is added dynamically after page load

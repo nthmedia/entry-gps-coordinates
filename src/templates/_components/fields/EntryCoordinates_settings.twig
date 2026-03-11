@@ -43,3 +43,12 @@
     value: field['defaultCenterCoordinates'],
     suggestEnvVars: true})
 }}
+
+{{ forms.autosuggestField({
+    label: 'Geocoding language',
+    instructions: 'Language code for stored address data (e.g. en, de, nl, fr). Determines the language of saved fields like address, country, and locality. The map interface language is set automatically based on the logged-in user\'s language. Defaults to en.',
+    id: 'geocodingLanguage',
+    name: 'geocodingLanguage',
+    value: field['geocodingLanguage'],
+    suggestEnvVars: true})
+}}

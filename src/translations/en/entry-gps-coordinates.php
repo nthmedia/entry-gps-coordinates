@@ -23,4 +23,9 @@
  */
 return [
     'Entry GPS Coordinates plugin loaded' => 'Entry GPS Coordinates plugin loaded',
+    'Search' => 'Search',
+    'Search Address' => 'Search Address',
+    'Coordinates' => 'Coordinates',
+    'Address' => 'Address',
+    'Delete Marker' => 'Delete Marker',
 ];

@@ -14,6 +14,11 @@ class EntryCoordinatesModel extends BaseModel
     public ?string $latitude = null;
     public ?string $longitude = null;
     public ?string $zoomLevel = null;
+    public ?string $streetNumber = null;
+    public ?string $route = null;
+    public ?string $locality = null;
+    public ?string $postalCode = null;
+    public ?string $country = null;
 
 
     public function __construct($attributes = [], array $config = [])

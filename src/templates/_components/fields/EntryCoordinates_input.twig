@@ -26,13 +26,13 @@
 {% endif %}
 
 <div style="display: flex; align-items: center; margin-bottom: 10px;">
-    <label style="margin-right: 10px;">Search:</label>
+    <label style="margin-right: 10px;">{{ 'Search'|t('entry-gps-coordinates') }}:</label>
     {{ forms.text({
         id: 'location-search-' ~ suffix,
         class: 'location-search-' ~ suffix,
         name: name ~ '[searchQuery]',
         value: value.searchQuery,
-        placeholder: 'Search Address'
+        placeholder: 'Search Address'|t('entry-gps-coordinates')
     }) }}
 </div>
 
@@ -53,14 +53,14 @@
 <div class="fields-map fields-map-{{ suffix }}"></div>
 
 <div style="margin-top: 10px; display: flex; align-items: center; margin-bottom: 10px;">
-    <label style="margin-right: 10px;">Coordinates:</label>
+    <label style="margin-right: 10px;">{{ 'Coordinates'|t('entry-gps-coordinates') }}:</label>
     {{ forms.text({
         id: name,
         class: 'location-coords-' ~ suffix,
         name: name ~ '[coordinates]',
         value: value.coordinates
     }) }}
-    <label style="margin-left: 10px; margin-right: 10px;">Address:</label>
+    <label style="margin-left: 10px; margin-right: 10px;">{{ 'Address'|t('entry-gps-coordinates') }}:</label>
     {{ forms.text({
         id: name,
         class: 'location-address-' ~ suffix,
@@ -74,13 +74,43 @@
         class: 'location-zoom-' ~ suffix,
         name: name ~ '[zoomLevel]',
         value: value.zoomLevel
-
+    }) }}
+    {{ tag('input', {
+        type: 'hidden',
+        class: 'location-street-number-' ~ suffix,
+        name: name ~ '[streetNumber]',
+        value: value.streetNumber ?? ''
+    }) }}
+    {{ tag('input', {
+        type: 'hidden',
+        class: 'location-route-' ~ suffix,
+        name: name ~ '[route]',
+        value: value.route ?? ''
+    }) }}
+    {{ tag('input', {
+        type: 'hidden',
+        class: 'location-locality-' ~ suffix,
+        name: name ~ '[locality]',
+        value: value.locality ?? ''
+    }) }}
+    {{ tag('input', {
+        type: 'hidden',
+        class: 'location-postal-code-' ~ suffix,
+        name: name ~ '[postalCode]',
+        value: value.postalCode ?? ''
+    }) }}
+    {{ tag('input', {
+        type: 'hidden',
+        class: 'location-country-' ~ suffix,
+        name: name ~ '[country]',
+        value: value.country ?? ''
     }) }}
 
-    <input type="button" value="Delete Marker" class="location-delete-{{ suffix }} btn" style="margin-left: 10px;">
+    <input type="button" value="{{ 'Delete Marker'|t('entry-gps-coordinates') }}" class="location-delete-{{ suffix }} btn" style="margin-left: 10px;">
 </div>
 
 {% js %}
     EntryCoordinates.setApiKey('{{ googleApiKey }}');
-    EntryCoordinates.addField('{{ name }}', { suffix: '{{ suffix }}', originalLocation: '{{ value.coordinates }}', zoomLevel: '{{ value.zoomLevel }}', defaultCenterCoordinates: '{{ defaultCenterCoordinates }}', defaultZoomLevel: '{{ defaultZoomLevel ?? 1 }}', apiKey: '{{ googleApiKey }}'});
+    EntryCoordinates.setLanguage('{{ uiLanguage }}');
+    EntryCoordinates.addField('{{ name }}', { suffix: '{{ suffix }}', originalLocation: '{{ value.coordinates }}', zoomLevel: '{{ value.zoomLevel }}', defaultCenterCoordinates: '{{ defaultCenterCoordinates }}', defaultZoomLevel: '{{ defaultZoomLevel ?? 1 }}', apiKey: '{{ googleApiKey }}', language: '{{ language }}'});
 {% endjs %}

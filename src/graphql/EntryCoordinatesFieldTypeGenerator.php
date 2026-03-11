@@ -22,6 +22,12 @@ class EntryCoordinatesFieldTypeGenerator implements GeneratorInterface
             'coordinates' => Type::string(),
             'latitude' => Type::float(),
             'longitude' => Type::float(),
+            'address' => Type::string(),
+            'streetNumber' => Type::string(),
+            'route' => Type::string(),
+            'locality' => Type::string(),
+            'postalCode' => Type::string(),
+            'country' => Type::string(),
         ];
 
         $coordinatesProperty = GqlEntityRegistry::getEntity($typeName)
