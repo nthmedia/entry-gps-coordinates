@@ -97,7 +97,6 @@ class CoordinatesField {
                 draggable: true,
             });
             this.marker = marker;
-
         }
 
         let coordsInput = this.coordsInput;
@@ -106,7 +105,7 @@ class CoordinatesField {
         let updateInputFields = this.updateInputFields;
         let transformLatLngToString = this.transformLatLngToString;
 
-        updateInputFields(this.marker, transformLatLngToString, coordsInput, addressInput);;
+        updateInputFields(this.marker, transformLatLngToString, coordsInput, addressInput);
 
         this.marker.addListener('position_changed', function () {
             updateInputFields(this, transformLatLngToString, coordsInput, addressInput);
@@ -178,7 +177,7 @@ class CoordinatesField {
         // Create map instance
         const map = new google.maps.Map(this.mapElement, {
             zoom: parseInt(zoomLevel),
-            center: this.getCenter(this.options.originalLocation)
+            center: this.getCenter(this.options.originalLocation),
         });
 
         this.map = map;
@@ -247,8 +246,7 @@ class EntryCoordinatesContainer {
     loadMapsScript = (apiKey) => {
         if (!window.mapsScriptLoaded) {
             let script = document.createElement('script');
-            script.src = 'https://maps.googleapis.com/maps/api/js?key=' + apiKey + '&callback=initMap&libraries=places';
-            script.async = true;
+            script.src = 'https://maps.googleapis.com/maps/api/js?key=' + apiKey + '&callback=initMap&libraries=places&loading=async';
 
             window.initMap = this.initMarkers;
 
@@ -273,7 +271,14 @@ class EntryCoordinatesContainer {
             this.loadMapsScript(this.apiKey ?? options.apiKey)
         }
 
-        this.markers.push(new CoordinatesField(name, options));
+        const field = new CoordinatesField(name, options);
+
+        // If Maps API is already loaded (e.g. when adding a Neo/Matrix block dynamically), initialize immediately
+        if (typeof google !== 'undefined') {
+            field.initThisMap();
+        }
+
+        this.markers.push(field);
 
         return true;
     }

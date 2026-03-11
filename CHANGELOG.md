@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.3.1 - 2026-03-11
+### Fixed
+- Map no longer initialises when a new Neo/Matrix block is added dynamically after page load
+- Google Maps API script now loads with `loading=async` for improved performance
+
 ## 2.3.0 - 2024-05-20
 ### Added
 - Craft v5 support
