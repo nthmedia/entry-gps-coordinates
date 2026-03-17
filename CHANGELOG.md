@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.4.1 - 2025-03-17
+### Fixed
+- (Craft 4) "Map Location should contain at most 255 characters" when saving locations with extended address data. Content column type changed from varchar(255) to text; migration alters existing columns automatically so fields do not need to be re-saved.
+
 ## 2.4.0 - 2026-03-11
 ### Added
 - Geocoding language setting per field: controls the language of stored address data (e.g. `en`, `de`, `nl`, `fr`). Defaults to `en`.
